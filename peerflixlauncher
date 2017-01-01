@@ -1,0 +1,26 @@
+#!/bin/bash
+#peerflixlauncher
+
+light_gray='\033[0;37m'
+red='\033[0;31m'
+no_color='\033[0m'
+
+clear
+
+printf "${light_gray}Welcome to${red} Peerflix${light_gray} launcher!\n"
+printf "\n${light_gray}Enter your magnet/torrent link then press [ENTER]:${no_color} "
+
+read link
+
+if [ "$link" != 'exit' ]; then
+	printf "\n${light_gray}Loading${red} Peerflix${light_gray}...${no_color} "
+	sleep 0.5
+	peerflix -v $link
+	sleep 0.5
+	printf "\n${light_gray}Reloading${red} Peerflix${light_gray} launcher...${no_color} "
+	sleep 1.5
+	peerflixlauncher;
+fi
+
+
+
