@@ -14,7 +14,7 @@ git clone https://github.com/ChuckFinley404/peerflixlauncher.git
 cd peerflixlauncher
 chmod 755 peerflixlauncher
 sudo mv peerflixlauncher /bin
-<pre>
+</pre>
 
 To execute
 
