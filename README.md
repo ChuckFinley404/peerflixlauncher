@@ -1,5 +1,5 @@
 # peerflixlauncher
-A light and simple terminal based launcher for Peerflix.
+a light and simple terminal based launcher for Peerflix
 
 Requirements
 
@@ -16,6 +16,6 @@ chmod 755 peerflixlauncher
 sudo mv peerflixlauncher /bin
 </pre>
 
-To execute type <pre>peerflixlauncher</pre> in any terminal window
+launch by typing `peerflixlauncher` in any terminal window
 
 N.B. use the equivalent package names `gir1.2-gconf-2.0 gir1.2-rsvg-2.0` for your distro
