@@ -1,5 +1,7 @@
 #!/bin/bash
-#peerflixlauncher
+# peerflixlauncher
+# ChuckFinley404 ( https://github.com/ChuckFinley404 )
+# This script isn't useful for much. It's not even convenient unless you add peerflixlauncher to your scripts. I am aware of this, this is my first real script and more of a learning 
 
 light_gray='\033[0;37m'
 red='\033[0;31m'
@@ -7,13 +9,38 @@ no_color='\033[0m'
 
 media_players=(vlc airplay mplayer smplayer mpchc potplayer mpv omx webplay jack)
 
-# Checks if the help or exit commands were entered
+# Allows user to set a default media player
+set_player()
+{
+    if [[ "${media_players[*]}" == *"$input"* ]]; then
+      	echo "$input" > current_media_player                                                        # The file current_media_player holds the user's current media player        
+	printf "\n${light_gray}$input has been set as the default media player${no_color}\n"
+	sleep 0.5
+	printf "\n${light_gray}Reloading${red} Peerflix${light_gray} launcher...${no_color} "
+	sleep 1.5
+	main
+    else
+	printf "\n${light_gray}Enter a valid media player then press [ENTER]: ${no_color}"
+	read_set_player
+    fi
+}
+
+# Same as set_player but with read input for recursive reasons
+read_set_player()
+{
+    read input
+    helpexit
+    set_player
+}
+
+# Executes help and exit commands as entered by the user
 helpexit()
 {
     if [ "$input" == "help" ]; then
 	clear
 	printf "${light_gray}$(cat help)${no_color}"
-	read input2
+	read input
+	helpexit
 	main
     fi
     
@@ -21,60 +48,30 @@ helpexit()
 	exit
     fi
 }
-
-# Allows user to set media player
-check_media_player()
-{
-    read input
-    helpexit
-    if [[ "${media_players[*]}" == *"$input"* ]]; then
-	echo "$input" > current_media_player
-	printf "\n${light_gray}$input has been set as the default media player${no_color}\n"
-	sleep 0.5
-	printf "\n${light_gray}Reloading${red} Peerflix${light_gray} launcher...${no_color} "
-	sleep 1.5
-	main
-    else
-	printf "\n${light_gray}Enter a valid media player then press [ENTER]: ${no_color}"
-	check_media_player
-    fi
-}
-
-# check_media_player without read input for recursive capability
-check_media_player_sub()
-{
-    if [[ "${media_players[*]}" == *"$input"* ]]; then
-	echo "$input" > current_media_player
-	printf "\n${light_gray}$input has been set as the default media player${no_color}\n"
-	sleep 0.5
-	printf "\n${light_gray}Reloading${red} Peerflix${light_gray} launcher...${no_color} "
-	sleep 1.5
-	main
-    else
-	printf "\n${light_gray}Enter a valid media player then press [ENTER]: ${no_color}"
-	check_media_player
-    fi
-}
-
+ 
 main()
 {
     clear
     printf "${light_gray}Welcome to${red} Peerflix${light_gray} launcher!\n"
 
+    # Prompts user to set a default media player for Peerflix launcher and calls read_check_player if a default media player isn't already set 
     if [ "$(cat current_media_player)" == "" ]; then
 	printf "\n${light_gray}No media player selected!"
 	printf "\nOptions:${no_color} "
 	echo ${media_players[@]:0}; 
 	printf "\n${light_gray}Enter your preferred media player then press [ENTER]:${no_color} "
-	check_media_player	    
+	read_set_player	    
     fi
-    
+
     printf "\n${light_gray}Enter your magnet/torrent link then press [ENTER]:${no_color} "
     read input
     helpexit
 
+    # Calls set_player if user enters a valid media player
     if [[ "${media_players[*]}" == *"$input"* ]]; then
-	check_media_player_sub
+	set_player
+    # Allows user to launch Peerflix with a magnet/torrent link
+    # Takes into account the user's default media player
     else
 	printf "\n${light_gray}Loading${red} Peerflix${light_gray}...${no_color} "
 	sleep 0.5
@@ -86,4 +83,5 @@ main()
     fi
 }
 
+# Live code
 main
