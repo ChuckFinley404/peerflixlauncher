@@ -15,6 +15,6 @@ cd peerflixlauncher
 chmod 755 peerflixlauncher
 </pre>
 
-launch with `peerflixlauncher`
+launch with `./peerflixlauncher`
 
 N.B. use the equivalent package names `gir1.2-gconf-2.0 gir1.2-rsvg-2.0` for your distro
