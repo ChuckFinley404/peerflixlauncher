@@ -1,0 +1,89 @@
+#!/bin/bash
+#peerflixlauncher
+
+light_gray='\033[0;37m'
+red='\033[0;31m'
+no_color='\033[0m'
+
+media_players=(vlc airplay mplayer smplayer mpchc potplayer mpv omx webplay jack)
+
+# Checks if the help or exit commands were entered
+helpexit()
+{
+    if [ "$input" == "help" ]; then
+	clear
+	printf "${light_gray}$(cat help)${no_color}"
+	read input2
+	main
+    fi
+    
+    if [ "$input" == "exit" ]; then
+	exit
+    fi
+}
+
+# Allows user to set media player
+check_media_player()
+{
+    read input
+    helpexit
+    if [[ "${media_players[*]}" == *"$input"* ]]; then
+	echo "$input" > current_media_player
+	printf "\n${light_gray}$input has been set as the default media player${no_color}\n"
+	sleep 0.5
+	printf "\n${light_gray}Reloading${red} Peerflix${light_gray} launcher...${no_color} "
+	sleep 1.5
+	main
+    else
+	printf "\n${light_gray}Enter a valid media player then press [ENTER]: ${no_color}"
+	check_media_player
+    fi
+}
+
+# check_media_player without read input for recursive capability
+check_media_player_sub()
+{
+    if [[ "${media_players[*]}" == *"$input"* ]]; then
+	echo "$input" > current_media_player
+	printf "\n${light_gray}$input has been set as the default media player${no_color}\n"
+	sleep 0.5
+	printf "\n${light_gray}Reloading${red} Peerflix${light_gray} launcher...${no_color} "
+	sleep 1.5
+	main
+    else
+	printf "\n${light_gray}Enter a valid media player then press [ENTER]: ${no_color}"
+	check_media_player
+    fi
+}
+
+main()
+{
+    clear
+    printf "${light_gray}Welcome to${red} Peerflix${light_gray} launcher!\n"
+
+    if [ "$(cat current_media_player)" == "" ]; then
+	printf "\n${light_gray}No media player selected!"
+	printf "\nOptions:${no_color} "
+	echo ${media_players[@]:0}; 
+	printf "\n${light_gray}Enter your preferred media player then press [ENTER]:${no_color} "
+	check_media_player	    
+    fi
+    
+    printf "\n${light_gray}Enter your magnet/torrent link then press [ENTER]:${no_color} "
+    read input
+    helpexit
+
+    if [[ "${media_players[*]}" == *"$input"* ]]; then
+	check_media_player_sub
+    else
+	printf "\n${light_gray}Loading${red} Peerflix${light_gray}...${no_color} "
+	sleep 0.5
+	peerflix $input --$(cat current_media_player)
+	sleep 0.5
+	printf "\n${light_gray}Reloading${red} Peerflix${light_gray} launcher...${no_color} "
+	sleep 1.5
+	main
+    fi
+}
+
+main
