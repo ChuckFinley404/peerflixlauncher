@@ -1,0 +1,9 @@
+Peerflix launcher ( https://github.com/ChuckFinley404/peerflixlauncher )
+USAGE:
+Type in a media player at any time to set it as the default media player
+	valid media players are vlc, airplay, mplayer, smplayer, mpchc, potplayer, mpv, omx, webplay or jack
+Paste in a magnet/torrent link to stream it
+Type help at any time to display this screen
+Type exit at any time to exit
+
+Press [Enter] to return to Peerflix launcher
